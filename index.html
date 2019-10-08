@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="all">
+</head>
+<body>
+    <h1>My first calculator</h1>
+    <div id="input">
+        <input type="number" name="123">
+    </div>
+    <div>
+        <button class="int" id="1">1</button>
+        <button class="int" id="2">2</button>
+        <button class="int" id="3">3</button>
+        <br>
+        <button class="int" id="4">4</button>
+        <button class="int" id="5">5</button>
+        <button class="int" id="6">6</button>
+        <br>
+        <button class="int" id="7">7</button>
+        <button class="int" id="8">8</button>
+        <button class="int" id="9">9</button>
+        <br>
+        <button class="int" id="0">0</button>
+        <button class="operator" id="+">+</button>
+        <button class="operator" id="-">-</button>
+    </div>
+<script>
+    const button = document.querySelectorAll('.int');
+    const input = document.querySelector('#input');
+
+
+
+    button.addEventListener("click", function(){
+        let inputs = input.createElement('p');
+        inputs.classList.add('ints')
+        document.getElementsByClassName('.input').appendChild(inputs);
+    })
+    
+
+</script>
+    
+</body>
+</html>
