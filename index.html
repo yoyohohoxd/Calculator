@@ -8,40 +8,47 @@
     <link rel="stylesheet" href="style.css" type="text/css" media="all">
 </head>
 <body>
-    <h1>My first calculator</h1>
-    <div id="input">
-        <input type="number" name="123">
-    </div>
+    <h1>The shitculator</h1>
     <div>
-        <button class="int" id="1">1</button>
-        <button class="int" id="2">2</button>
-        <button class="int" id="3">3</button>
+        <p id="display"></p>
+        <p id="log">A log</p>
+    </div>
+    <div id="keypad">
+        <button class="int" id="one">1</button>
+        <button class="int" id="two">2</button>
+        <button class="int" id="three">3</button>
+        <button class="operator" id="addition">+</button>
         <br>
-        <button class="int" id="4">4</button>
-        <button class="int" id="5">5</button>
-        <button class="int" id="6">6</button>
+        <button class="int" id="four">4</button>
+        <button class="int" id="five">5</button>
+        <button class="int" id="six">6</button>
+        <button class="operator" id="subtraction">-</button>
         <br>
-        <button class="int" id="7">7</button>
-        <button class="int" id="8">8</button>
-        <button class="int" id="9">9</button>
+        <button class="int" id="seven">7</button>
+        <button class="int" id="eight">8</button>
+        <button class="int" id="nine">9</button>
+        <button class="operator" id="multiplication">*</button>
         <br>
-        <button class="int" id="0">0</button>
-        <button class="operator" id="+">+</button>
-        <button class="operator" id="-">-</button>
+        <button class="int" id="zero">0</button>
+        <button class="int" id="dot">.</button>
+        <button class="operator" id="result">=</button>
+        <button class="operator" id="division">/</button>
+        <br>
+        <button id="clear">Clear</button>
+        <button id="backspace">Delete</button>
     </div>
 <script>
-    const button = document.querySelectorAll('.int');
-    const input = document.querySelector('#input');
+
+    const keypad = document.getElementById("keypad");
+    const display = document.getElementById("display");
 
 
-
-    button.addEventListener("click", function(){
-        let inputs = input.createElement('p');
-        inputs.classList.add('ints')
-        document.getElementsByClassName('.input').appendChild(inputs);
-    })
+    display.innerText= 50 - 5;
     
-
+    
+    keypad.addEventListener("click", () => {
+        console.log(display.innerText = keypad.value + this.innerText);
+    });
 </script>
     
 </body>

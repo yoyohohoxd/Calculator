@@ -1,7 +1,78 @@
 body {
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #2C3531;
+}
+
+h1 {
+    letter-spacing: 2px;
 }
 
 #input {
     margin: 5px 0px
 }
+
+p {
+    background-color: white;
+    color: #2C3531;
+    width: 310px;
+    height: 50px;
+    display: inline-block;
+    font-size: 24px;
+    border-radius: 5px;
+    text-align: end;
+}
+
+#log {
+    position: fixed;
+    margin-left: 10px;
+    width: 200px;
+    text-align: center;
+    height: 368px;
+    background-color: #e1f1fd;
+}
+
+button {
+    height: 55px;
+    width: 75px;
+    margin: 2px 0px;
+    border-radius: 5px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    border: solid 1px black;
+}
+
+button.int {
+    background: #D1E8E2;
+}
+
+button.operator {
+    background-color: #123C69;
+    color: white;
+}
+
+#result {
+    background: #116466;
+}
+
+#clear, #backspace {
+    height: 55px;
+    width: 155px;
+    background-color: #AC3B61;
+    transition: 0.2s;
+}
+
+#clear:hover, #backspace:hover {
+    color: white;
+}
+
+/* #backspace {
+    height: 60px;
+    width: 130px;
+    background-color: #e25555;
+} */
