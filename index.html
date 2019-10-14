@@ -8,47 +8,145 @@
     <link rel="stylesheet" href="style.css" type="text/css" media="all">
 </head>
 <body>
-    <h1>The shitculator</h1>
+    <h1>The calculator</h1>
     <div>
         <p id="display"></p>
-        <p id="log">A log</p>
+        <p id="log"></p>
     </div>
-    <div id="keypad">
-        <button class="int" id="one">1</button>
-        <button class="int" id="two">2</button>
-        <button class="int" id="three">3</button>
-        <button class="operator" id="addition">+</button>
-        <br>
-        <button class="int" id="four">4</button>
-        <button class="int" id="five">5</button>
-        <button class="int" id="six">6</button>
-        <button class="operator" id="subtraction">-</button>
-        <br>
-        <button class="int" id="seven">7</button>
-        <button class="int" id="eight">8</button>
-        <button class="int" id="nine">9</button>
-        <button class="operator" id="multiplication">*</button>
-        <br>
-        <button class="int" id="zero">0</button>
-        <button class="int" id="dot">.</button>
-        <button class="operator" id="result">=</button>
-        <button class="operator" id="division">/</button>
-        <br>
-        <button id="clear">Clear</button>
-        <button id="backspace">Delete</button>
+    <div id="allkeys">
+        <div id="keypad">
+            <button class="int" id="seven">7</button>
+            <button class="int" id="eight">8</button>
+            <button class="int" id="nine">9</button>
+            <button class="operator" id="addition" data-action="add"> + </button>
+            <br>
+            <button class="int" id="four">4</button>
+            <button class="int" id="five">5</button>
+            <button class="int" id="six">6</button>
+            <button class="operator" id="subtraction" data-action="sub">-</button>
+            <br>
+            <button class="int" id="one">1</button>
+            <button class="int" id="two">2</button>
+            <button class="int" id="three">3</button>
+            <button class="operator" id="multiplication" data-action="multi">&times;</button>
+            <br>
+            <button class="int" id="zero">0</button>
+            <button class="int" id="dot" data-action="dot">.</button>
+            <button class="operator" id="result" data-action="result">=</button>
+            <button class="operator" id="division" data-action="div">/</button>
+            <br>
+        </div>
+        <div id="delete">
+            <button id="clear" data-action="clear">Clear</button>
+            <button id="backspace">Delete</button>
+        </div>
     </div>
 <script>
-
+    const allKeys = document.getElementById("allkeys");
     const keypad = document.getElementById("keypad");
     const display = document.getElementById("display");
-
-
-    display.innerText= 50 - 5;
+    const log = document.getElementById("log");
+    const clear = document.getElementById("clear");
     
-    
-    keypad.addEventListener("click", () => {
-        console.log(display.innerText = keypad.value + this.innerText);
+    const ints = keypad.querySelector(".int");
+    const operator = keypad.getElementsByClassName("operator");
+
+    const add = keypad.querySelector("#addition");
+    const sub = keypad.querySelector("#subtraction");
+    const multi = keypad.querySelector("#multiplication");
+    const div = keypad.querySelector("#division");
+
+    const remove = allKeys.querySelector("#delete");
+    const AC = remove.querySelector("#clear");
+    const backspace = remove.querySelector("#backspace");
+
+    display.textContent = 0;
+    let value1;
+    let value2;
+    let result;
+    log.textContent = value2;
+        
+
+    add.addEventListener("click", () => {
+        if (value2 === undefined) {
+            log.textContent = display.textContent;
+            value2 = Number(log.textContent);
+            display.textContent = "";
+            value1 = undefined;
+        } else if (!isNaN(value2)) {
+            log.textContent = value2 + value1;
+            value2 = Number(log.textContent);
+            display.textContent = ""
+            value1 = undefined;
+        } else if (isNaN(value2)) {
+            alert("isNaN");
+            return;
+        } else {
+            alert("error")
+        }
     });
+
+    sub.addEventListener("click", () => {
+        if (value2 === undefined) {
+            log.textContent = display.textContent;
+            value2 = Number(log.textContent);
+            display.textContent = "";
+            value1 = undefined;
+        } else if (!isNaN(value2)) {
+            log.textContent = value2 - value1;
+            display.textContent = ""
+            value1 = undefined;
+            value2 = Number(log.textContent);
+        } else {
+            alert("error");
+        };
+    });
+
+    multi.addEventListener("click", () => {
+        if (value2 === undefined) {
+            log.textContent = display.textContent;
+            value2 = Number(log.textContent);
+            display.textContent = "";
+            value1 = undefined;
+        } else if (!isNaN(value2)) {
+            log.textContent = value2 * value1;
+            display.textContent = ""
+            value1 = undefined;
+            value2 = Number(log.textContent);
+        } else {
+            alert("error");
+        };
+    });
+    
+    keypad.addEventListener("click", e => {
+        if (e.target.matches('button')) {
+            const key = e.target;
+            const action = key.dataset.action;
+            if(!action) {
+                if (display.textContent === "0") {
+                    console.log(display.textContent = e.target.textContent);
+                    return
+                } else {
+                    console.log(display.textContent += e.target.textContent);
+                    value1 = Number(display.textContent);
+                }
+            }
+            }
+        });
+
+    
+
+    AC.addEventListener("click", e => {
+        display.textContent = 0;
+        value1 = undefined;
+        value2 = undefined;
+        log.textContent = value2;
+    })
+
+    backspace.addEventListener("click", () => {
+        
+    })
+    
 </script>
     
 </body>

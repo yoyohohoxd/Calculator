@@ -15,7 +15,8 @@ h1 {
 
 p {
     background-color: white;
-    color: #2C3531;
+    /* color: #2C3531; */
+    color: black;
     width: 310px;
     height: 50px;
     display: inline-block;
@@ -23,6 +24,8 @@ p {
     border-radius: 5px;
     text-align: end;
 }
+
+
 
 #log {
     position: fixed;
@@ -70,9 +73,3 @@ button.operator {
 #clear:hover, #backspace:hover {
     color: white;
 }
-
-/* #backspace {
-    height: 60px;
-    width: 130px;
-    background-color: #e25555;
-} */
