@@ -144,8 +144,13 @@
     })
 
     backspace.addEventListener("click", () => {
-        
-    })
+        let value = display.textContent;
+        display.textContent = value.substr(0, value.length - 1);
+        value1 = Number(display.textContent);
+        if (value1 === 0) {
+            display.textContent = 0;
+        }
+    });
     
 </script>
     
