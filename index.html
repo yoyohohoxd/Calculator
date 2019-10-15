@@ -55,6 +55,7 @@
     const sub = keypad.querySelector("#subtraction");
     const multi = keypad.querySelector("#multiplication");
     const div = keypad.querySelector("#division");
+    const dot = keypad.querySelector("#dot");
 
     const remove = allKeys.querySelector("#delete");
     const AC = remove.querySelector("#clear");
@@ -118,6 +119,22 @@
         };
     });
     
+    div.addEventListener("click", () => {
+        if (value2 === undefined) {
+            log.textContent = display.textContent;
+            value2 = Number(log.textContent);
+            display.textContent = 0;
+            value1 = undefined;
+        } else if (!isNaN(value2)) {
+            log.textContent = value2 / value1;
+            display.textContent = 0;
+            value1 = undefined;
+            value2 = Number(log.textContent);
+        } else {
+            alert("error");
+        };
+    });
+
     keypad.addEventListener("click", e => {
         if (e.target.matches('button')) {
             const key = e.target;
@@ -131,17 +148,20 @@
                     value1 = Number(display.textContent);
                 }
             }
-            }
-        });
+        }   
+    });
 
-    
+    dot.addEventListener("click", () => {
+        let value = display.textContent;
+        display.textContent += ".";
+    });
 
     AC.addEventListener("click", e => {
         display.textContent = 0;
         value1 = undefined;
         value2 = undefined;
         log.textContent = value2;
-    })
+    });
 
     backspace.addEventListener("click", () => {
         let value = display.textContent;
