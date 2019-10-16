@@ -89,7 +89,7 @@
 
     add.addEventListener("click", e => {
         let operator = e.target;
-        if (value2 === undefined || 0) {
+        if (value2 === undefined || 0 || value1 === undefined) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
@@ -110,22 +110,27 @@
 
     sub.addEventListener("click", e => {
         let operator = e.target;
-        if (value2 === undefined || 0) {
+        if (value2 === undefined || 0 || value1 === undefined) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
             operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
-        } else if (!isNaN(value2)) {
+        } else if (!isNaN(value1) && !isNaN(value2)) {
+            log.textContent = value1 + value2;
+            display.textContent = ""
+            operator = document.createTextNode("-");
+            display.appendChild(operator);
+            value1 = undefined;
+            value2 = Number(log.textContent);
+        } else if (!isNaN(value2))  {
             log.textContent = value2 - value1;
             display.textContent = ""
             operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
-        } else {
-            alert("error");
         };
     });
 
