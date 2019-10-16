@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>The calculator</h1>
-    <div>
+    <div id="screen">
         <p id="display"></p>
         <p id="log"></p>
     </div>
@@ -42,13 +42,13 @@
         </div>
     </div>
 <script>
-    const allKeys = document.getElementById("allkeys");
-    const keypad = document.getElementById("keypad");
+    const allKeys = document.querySelector("#allkeys");
+    const keypad = allKeys.querySelector("#keypad");
     const display = document.getElementById("display");
     const log = document.getElementById("log");
     const clear = document.getElementById("clear");
     
-    const ints = keypad.querySelector(".int");
+    const ints = keypad.querySelectorAll(".int");
     const operator = keypad.getElementsByClassName("operator");
 
     const add = keypad.querySelector("#addition");
@@ -61,41 +61,67 @@
     const AC = remove.querySelector("#clear");
     const backspace = remove.querySelector("#backspace");
 
-    display.textContent = 0;
     let value1;
     let value2;
-    let result;
+
+    function updateDisplay() {
+    display.textContent = value1;
+    value2 = Number(log.textContent);
+    }
+
     log.textContent = value2;
         
+    keypad.addEventListener("click", e => {
+        if (e.target.matches('button')) {
+            const key = e.target;
+            const action = key.dataset.action;
+            if(!action) {
+                if (display.textContent === "0") {
+                    console.log(display.textContent = e.target.textContent);
+                    return
+                } else {
+                    console.log(display.textContent += e.target.textContent);
+                    value1 = Number(display.textContent);
+                }
+            }
+        }   
+    });
 
-    add.addEventListener("click", () => {
-        if (value2 === undefined) {
+    add.addEventListener("click", e => {
+        let operator = e.target;
+        if (value2 === undefined || 0) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
+            operator = document.createTextNode("+");
+            display.appendChild(operator);
             value1 = undefined;
         } else if (!isNaN(value2)) {
             log.textContent = value2 + value1;
             value2 = Number(log.textContent);
             display.textContent = ""
+            operator = document.createTextNode("+");
+            display.appendChild(operator);
             value1 = undefined;
-        } else if (isNaN(value2)) {
-            alert("isNaN");
-            return;
         } else {
             alert("error")
         }
     });
 
-    sub.addEventListener("click", () => {
-        if (value2 === undefined) {
+    sub.addEventListener("click", e => {
+        let operator = e.target;
+        if (value2 === undefined || 0) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
+            operator = document.createTextNode("-");
+            display.appendChild(operator);
             value1 = undefined;
         } else if (!isNaN(value2)) {
             log.textContent = value2 - value1;
             display.textContent = ""
+            operator = document.createTextNode("-");
+            display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
@@ -123,11 +149,11 @@
         if (value2 === undefined) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
-            display.textContent = 0;
+            display.textContent = "";
             value1 = undefined;
         } else if (!isNaN(value2)) {
             log.textContent = value2 / value1;
-            display.textContent = 0;
+            display.textContent = "";
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
@@ -135,21 +161,16 @@
         };
     });
 
-    keypad.addEventListener("click", e => {
-        if (e.target.matches('button')) {
-            const key = e.target;
-            const action = key.dataset.action;
-            if(!action) {
-                if (display.textContent === "0") {
-                    console.log(display.textContent = e.target.textContent);
-                    return
-                } else {
-                    console.log(display.textContent += e.target.textContent);
-                    value1 = Number(display.textContent);
-                }
-            }
-        }   
+    let result = (function () {
+        result = keypad.querySelector("#result");
+        result.addEventListener("click", e => {
+            log.textContent = value2 + value1;
+            value1 = 0;
+            updateDisplay();
+        });
     });
+    
+    result();
 
     dot.addEventListener("click", () => {
         let value = display.textContent;
@@ -161,6 +182,7 @@
         value1 = undefined;
         value2 = undefined;
         log.textContent = value2;
+        console.clear();
     });
 
     backspace.addEventListener("click", () => {
