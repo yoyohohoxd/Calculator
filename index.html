@@ -37,7 +37,7 @@
             <br>
         </div>
         <div id="delete">
-            <button id="clear" data-action="clear">Clear</button>
+            <button id="clear" data-action="clear">AC</button>
             <button id="backspace">Delete</button>
         </div>
     </div>
@@ -63,14 +63,16 @@
 
     let value1;
     let value2;
+    let string;
+    let splicedString;
 
+    log.textContent = value2;
+        
     function updateDisplay() {
     display.textContent = value1;
     value2 = Number(log.textContent);
     }
 
-    log.textContent = value2;
-        
     keypad.addEventListener("click", e => {
         if (e.target.matches('button')) {
             const key = e.target;
@@ -81,15 +83,28 @@
                     return
                 } else {
                     console.log(display.textContent += e.target.textContent);
-                    value1 = Number(display.textContent);
+                    value1 = display.textContent;
+                    string = value1
                 }
             }
         }   
     });
 
+    function sliceString() {
+        string = String(value1);
+        if (string.startsWith("*") || string.startsWith("/")) {
+            slicedString = string.slice(1);
+            value1 = Number(slicedString);
+            return value1;
+        } else {
+            value1 = Number(display.textContent);
+        }
+    }
+
     add.addEventListener("click", e => {
         let operator = e.target;
-        if (value2 === undefined || 0 || value1 === undefined) {
+        if (value2 === undefined || value1 === undefined) {
+            sliceString();
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
@@ -97,6 +112,7 @@
             display.appendChild(operator);
             value1 = undefined;
         } else if (!isNaN(value2)) {
+            sliceString();
             log.textContent = value2 + value1;
             value2 = Number(log.textContent);
             display.textContent = ""
@@ -110,7 +126,8 @@
 
     sub.addEventListener("click", e => {
         let operator = e.target;
-        if (value2 === undefined || 0 || value1 === undefined) {
+        if (value2 === undefined || value1 === undefined) {
+            sliceString();
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
@@ -118,6 +135,7 @@
             display.appendChild(operator);
             value1 = undefined;
         } else if (!isNaN(value1) && !isNaN(value2)) {
+            sliceString();
             log.textContent = value1 + value2;
             display.textContent = ""
             operator = document.createTextNode("-");
@@ -125,24 +143,48 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else if (!isNaN(value2))  {
+            sliceString();
             log.textContent = value2 - value1;
             display.textContent = ""
             operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
-        };
+        } else {
+            alert ("error");
+        }
     });
 
-    multi.addEventListener("click", () => {
+    
+    multi.addEventListener("click", e => {
+        let operator = e.target;
+        operator = document.createTextNode("*");
+        sliceString();
         if (value2 === undefined) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
+            operator = document.createTextNode("*");
+            display.appendChild(operator);
             value1 = undefined;
-        } else if (!isNaN(value2)) {
+        } else if (value1 === 0) {
+            display.textContent = "";
+            display.appendChild(operator);
+        } else if (string.startsWith("+")) {
+            log.textContent = value2 + value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("-")) {
+            log.textContent = value2 + value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("*") && !isNaN(value2)) {
             log.textContent = value2 * value1;
             display.textContent = ""
+            operator = document.createTextNode("*");
+            display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
@@ -150,15 +192,33 @@
         };
     });
     
-    div.addEventListener("click", () => {
+    div.addEventListener("click", e => {
+        let operator = e.target;
+        operator = document.createTextNode("/");
+        sliceString();
         if (value2 === undefined) {
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
+            display.appendChild(operator);
             value1 = undefined;
-        } else if (!isNaN(value2)) {
-            log.textContent = value2 / value1;
+        } else if (value1 === 0) {
             display.textContent = "";
+            display.appendChild(operator);
+        } else if (string.startsWith("+")) {
+            log.textContent = value2 + value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("-")) {
+            log.textContent = value2 + value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("/") || !isNaN(value2)) {
+            log.textContent = value2 / value1;
+            display.textContent = ""
+            display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
@@ -169,9 +229,20 @@
     let result = (function () {
         result = keypad.querySelector("#result");
         result.addEventListener("click", e => {
-            log.textContent = value2 + value1;
-            value1 = 0;
-            updateDisplay();
+            sliceString();
+            if (string.startsWith("*")) {
+                log.textContent = value2 * value1;
+                value1 = 0;
+                updateDisplay();
+            } else if (string.startsWith("/")) {
+                log.textContent = value2 / value1;
+                value1 = 0;
+                updateDisplay();
+            } else {
+                log.textContent = value2 + value1;
+                value1 = 0;
+                updateDisplay();
+            };
         });
     });
     
