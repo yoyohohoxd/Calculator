@@ -90,3 +90,10 @@ button#dot {
 #clear:hover, #backspace:hover {
     color: white;
 }
+
+#version {
+    background-color: #2C3531;
+    font-size: 12px;
+    display: inline-block;
+    text-align: left;
+}
