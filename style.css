@@ -28,15 +28,24 @@ p {
 
 #allkeys {
     position: relative;
+    width: max-content;
+    display: contents;
+    padding: 3px;
+    border: solid white 3px;
+}
+
+#display {
+    border: solid black 1px;
 }
 
 #log {
     position: absolute;
     margin-left: 10px;
     width: 200px;
+    height: 365px;
     text-align: center;
-    height: 368px;
     background-color: #e1f1fd;
+    border: solid black 1px;
 }
 
 button {
@@ -69,9 +78,10 @@ button.operator {
 
 #clear, #backspace {
     height: 55px;
-    width: 155px;
+    width: 157px;
     background-color: #AC3B61;
     transition: 0.2s;
+    border: solid 2px black;
 }
 
 #clear:hover, #backspace:hover {

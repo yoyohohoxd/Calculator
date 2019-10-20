@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" type="text/css" media="all">
 </head>
 <body>
@@ -18,27 +19,27 @@
             <button class="int" id="seven">7</button>
             <button class="int" id="eight">8</button>
             <button class="int" id="nine">9</button>
-            <button class="operator" id="addition" data-action="add"> + </button>
+            <button class="operator" id="division" data-action="div">/</button>
             <br>
             <button class="int" id="four">4</button>
             <button class="int" id="five">5</button>
             <button class="int" id="six">6</button>
-            <button class="operator" id="subtraction" data-action="sub">-</button>
+            <button class="operator" id="multiplication" data-action="multi">&times;</button>
             <br>
             <button class="int" id="one">1</button>
             <button class="int" id="two">2</button>
             <button class="int" id="three">3</button>
-            <button class="operator" id="multiplication" data-action="multi">&times;</button>
+            <button class="operator" id="subtraction" data-action="sub">-</button>
             <br>
             <button class="int" id="zero">0</button>
             <button class="int" id="dot" data-action="dot">.</button>
             <button class="operator" id="result" data-action="result">=</button>
-            <button class="operator" id="division" data-action="div">/</button>
+            <button class="operator" id="addition" data-action="add"> + </button>
             <br>
         </div>
         <div id="delete">
             <button id="clear" data-action="clear">AC</button>
-            <button id="backspace">Delete</button>
+            <button id="backspace">Backspace</button>
         </div>
     </div>
 <script>
@@ -65,8 +66,11 @@
     let value2;
     let string;
     let splicedString;
+    let showResult = document.createElement("p");
+    let br = document.createElement("br");
 
     log.textContent = value2;
+    display.textContent = 0;
         
     function updateDisplay() {
     display.textContent = value1;
@@ -85,9 +89,16 @@
                     console.log(display.textContent += e.target.textContent);
                     value1 = display.textContent;
                     string = value1
-                }
-            }
-        }   
+                    if (display.textContent.length < 22) {
+                        return;
+                    } else if (display.textContent.length >= 22) {
+                        alert("A longer interger will result in overflow. I have deleted your last input.");
+                        let value = display.textContent;
+                        display.textContent = value.substr(0, value.length - 1);
+                    };
+                };
+            };
+        };
     });
 
     function sliceString() {
@@ -103,55 +114,71 @@
 
     add.addEventListener("click", e => {
         let operator = e.target;
+        operator = document.createTextNode("+")
+        sliceString();
         if (value2 === undefined || value1 === undefined) {
-            sliceString();
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
-            operator = document.createTextNode("+");
             display.appendChild(operator);
             value1 = undefined;
+        } else if (string.startsWith("/")){
+            log.textContent = value2 / value1;
+            display.textContent = ""
+            display.appendChild(operator);
+            value1 = undefined;
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("*")) {
+            log.textContent = value2 * value1;
+            display.textContent = ""
+            display.appendChild(operator);
+            value1 = undefined;
+            value2 = Number(log.textContent);
         } else if (!isNaN(value2)) {
-            sliceString();
             log.textContent = value2 + value1;
             value2 = Number(log.textContent);
             display.textContent = ""
-            operator = document.createTextNode("+");
             display.appendChild(operator);
             value1 = undefined;
         } else {
-            alert("error")
+            alert("Error 01 - check add")
         }
     });
 
     sub.addEventListener("click", e => {
         let operator = e.target;
+        operator = document.createTextNode("-");
+        sliceString();
         if (value2 === undefined || value1 === undefined) {
-            sliceString();
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
-            operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
+        } else if (string.startsWith("/")) {
+            log.textContent = value2 / value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
+        } else if (string.startsWith("*")) {
+            log.textContent = value2 * value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
         } else if (!isNaN(value1) && !isNaN(value2)) {
-            sliceString();
             log.textContent = value1 + value2;
             display.textContent = ""
-            operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
         } else if (!isNaN(value2))  {
-            sliceString();
             log.textContent = value2 - value1;
             display.textContent = ""
-            operator = document.createTextNode("-");
             display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert ("error");
+            alert ("Error 02 - check sub");
         }
     });
 
@@ -164,7 +191,6 @@
             log.textContent = display.textContent;
             value2 = Number(log.textContent);
             display.textContent = "";
-            operator = document.createTextNode("*");
             display.appendChild(operator);
             value1 = undefined;
         } else if (value1 === 0) {
@@ -180,6 +206,11 @@
             display.textContent = "";
             display.appendChild(operator);
             value2 = Number(log.textContent);
+        } else if (string.startsWith("/")) {
+            log.textContent = value2 / value1;
+            display.textContent = "";
+            display.appendChild(operator);
+            value2 = Number(log.textContent);
         } else if (string.startsWith("*") && !isNaN(value2)) {
             log.textContent = value2 * value1;
             display.textContent = ""
@@ -188,7 +219,7 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert("error");
+            alert("Error 03 - check multi");
         };
     });
     
@@ -205,13 +236,13 @@
         } else if (value1 === 0) {
             display.textContent = "";
             display.appendChild(operator);
-        } else if (string.startsWith("+")) {
+        } else if (string.startsWith("+" || "-")) {
             log.textContent = value2 + value1;
             display.textContent = "";
             display.appendChild(operator);
             value2 = Number(log.textContent);
-        } else if (string.startsWith("-")) {
-            log.textContent = value2 + value1;
+        } else if (string.startsWith("*")) {
+            log.textContent = value2 * value1;
             display.textContent = "";
             display.appendChild(operator);
             value2 = Number(log.textContent);
@@ -222,31 +253,33 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert("error");
+            alert("Error 04 - check div");
         };
     });
 
-    let result = (function () {
-        result = keypad.querySelector("#result");
-        result.addEventListener("click", e => {
-            sliceString();
-            if (string.startsWith("*")) {
-                log.textContent = value2 * value1;
-                value1 = 0;
-                updateDisplay();
-            } else if (string.startsWith("/")) {
-                log.textContent = value2 / value1;
-                value1 = 0;
-                updateDisplay();
-            } else {
-                log.textContent = value2 + value1;
-                value1 = 0;
-                updateDisplay();
-            };
-        });
+    result = keypad.querySelector("#result");
+    result.addEventListener("click", e => {
+        sliceString();
+        showResult = log.textContent;
+        document.getElementById("log").appendChild(br);
+        if (string.startsWith("*")) {
+            log.textContent = value2 * value1;
+            value1 = 0;
+            updateDisplay();
+        } else if (string.startsWith("/")) {
+            log.textContent = value2 / value1;
+            value1 = 0;
+            updateDisplay();
+        } else if (typeof value1 !== undefined) {
+            log.textContent = Number(value1);
+            value1 = 0;
+            updateDisplay();
+        } else {
+            log.textContent = value2 + value1;
+            value1 = 0;
+            updateDisplay();
+        };
     });
-    
-    result();
 
     dot.addEventListener("click", () => {
         let value = display.textContent;
