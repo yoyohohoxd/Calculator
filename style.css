@@ -20,7 +20,7 @@ p {
     width: 310px;
     height: 50px;
     display: inline-block;
-    font-size: 24px;
+    font-size: 28px;
     letter-spacing: 1.1px;
     border-radius: 5px;
     text-align: end;
@@ -30,18 +30,17 @@ p {
     position: relative;
     width: max-content;
     display: contents;
-    padding: 3px;
-    border: solid white 3px;
 }
 
 #display {
     border: solid black 1px;
+    margin-bottom: 22px;
 }
 
 #log {
     position: absolute;
     margin-left: 10px;
-    width: 200px;
+    width: 250px;
     height: 365px;
     text-align: center;
     background-color: #e1f1fd;
@@ -70,6 +69,10 @@ button.int {
 button.operator {
     background-color: #123C69;
     color: white;
+}
+
+button#dot {
+    font-weight: 900;
 }
 
 #result {

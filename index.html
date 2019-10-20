@@ -75,7 +75,20 @@
     function updateDisplay() {
     display.textContent = value1;
     value2 = Number(log.textContent);
+    value2floored = Math.round(value2 * 100) / 100;
     }
+
+    window.addEventListener("keydown", e => {
+        const key = e.key;
+        if (display.textContent === "0") {
+            display.textContent = "";
+            display.textContent += key;
+        } else {
+            display.textContent += key;
+            value1 = display.textContent;
+            string = value1;
+        }
+    });
 
     keypad.addEventListener("click", e => {
         if (e.target.matches('button')) {
@@ -141,8 +154,12 @@
             display.appendChild(operator);
             value1 = undefined;
         } else {
-            alert("Error 01 - check add")
-        }
+            alert("Error 01 - check add. Reset.")
+            display.textContent = 0;
+            value1 = undefined;
+            value2 = undefined;
+            log.textContent = value2;
+        };
     });
 
     sub.addEventListener("click", e => {
@@ -178,7 +195,11 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert ("Error 02 - check sub");
+            alert ("Error 02 - check sub. Reset.");
+            display.textContent = 0;
+            value1 = undefined;
+            value2 = undefined;
+            log.textContent = value2;
         }
     });
 
@@ -219,7 +240,11 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert("Error 03 - check multi");
+            alert("Error 03 - check multi. Reset.");
+            display.textContent = 0;
+            value1 = undefined;
+            value2 = undefined;
+            log.textContent = value2;
         };
     });
     
@@ -236,7 +261,7 @@
         } else if (value1 === 0) {
             display.textContent = "";
             display.appendChild(operator);
-        } else if (string.startsWith("+" || "-")) {
+        } else if (string.startsWith("+") || string.startsWith ("-")) {
             log.textContent = value2 + value1;
             display.textContent = "";
             display.appendChild(operator);
@@ -253,7 +278,11 @@
             value1 = undefined;
             value2 = Number(log.textContent);
         } else {
-            alert("Error 04 - check div");
+            alert("Error 04 - check div. Reset.");
+            display.textContent = 0;
+            value1 = undefined;
+            value2 = undefined;
+            log.textContent = value2;
         };
     });
 
@@ -270,20 +299,23 @@
             log.textContent = value2 / value1;
             value1 = 0;
             updateDisplay();
+        } else if (string.startsWith("+") || string.startsWith("-")){
+            log.textContent = value2 + value1;
+            value1 = 0;
+            updateDisplay();
         } else if (typeof value1 !== undefined) {
             log.textContent = Number(value1);
             value1 = 0;
             updateDisplay();
         } else {
-            log.textContent = value2 + value1;
-            value1 = 0;
-            updateDisplay();
-        };
+            alert("Error 05 - Check result.")
+        }
     });
 
     dot.addEventListener("click", () => {
-        let value = display.textContent;
-        display.textContent += ".";
+        if (!display.textContent.includes(".")) {
+            display.textContent += ".";
+        };
     });
 
     AC.addEventListener("click", e => {
