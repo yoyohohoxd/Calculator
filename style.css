@@ -45,6 +45,7 @@ p {
     text-align: center;
     background-color: #e1f1fd;
     border: solid black 1px;
+    overflow: hidden;
 }
 
 button {

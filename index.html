@@ -41,7 +41,7 @@
             <button id="clear" data-action="clear">AC</button>
             <button id="backspace">Backspace</button>
         </div>
-        <div id="versionNO"><p id="version">Version 0.8</p></div>
+        <div id="versionNO"><p id="version">Version 0.9</p></div>
     </div>
 <script>
     const allKeys = document.querySelector("#allkeys");
@@ -72,24 +72,25 @@
 
     log.textContent = value2;
     display.textContent = 0;
-        
+
+    /* I was trying to add keyboard support but decided to move on. */
+
+    // window.addEventListener("keydown", e => {
+    //     const key = e.key;
+    //     if (display.textContent === "0") {
+    //         display.textContent = "";
+    //         display.textContent += key;
+    //     } else {
+    //         display.textContent += key;
+    //         value1 = display.textContent;
+    //         string = value1;
+    //     }
+    // });
+
     function updateDisplay() {
     display.textContent = value1;
     value2 = Number(log.textContent);
-    value2floored = Math.round(value2 * 100) / 100;
     }
-
-    window.addEventListener("keydown", e => {
-        const key = e.key;
-        if (display.textContent === "0") {
-            display.textContent = "";
-            display.textContent += key;
-        } else {
-            display.textContent += key;
-            value1 = display.textContent;
-            string = value1;
-        }
-    });
 
     keypad.addEventListener("click", e => {
         if (e.target.matches('button')) {
@@ -103,10 +104,9 @@
                     console.log(display.textContent += e.target.textContent);
                     value1 = display.textContent;
                     string = value1
-                    if (display.textContent.length < 22) {
+                    if (display.textContent.length < 19) {
                         return;
-                    } else if (display.textContent.length >= 22) {
-                        alert("A longer interger will result in overflow. I have deleted your last input.");
+                    } else if (display.textContent.length >= 19) {
                         let value = display.textContent;
                         display.textContent = value.substr(0, value.length - 1);
                     };
@@ -125,6 +125,14 @@
             value1 = Number(display.textContent);
         }
     }
+
+    function logExpander() {
+        if (log.textContent.length >= 16) {
+            log.style.width = "400px";
+        } else if (log.textContent.length >= 24) {
+            log.style.width = "500px";
+        };
+    };
 
     add.addEventListener("click", e => {
         let operator = e.target;
@@ -148,6 +156,8 @@
             display.appendChild(operator);
             value1 = undefined;
             value2 = Number(log.textContent);
+        } else if (value1 === undefined && !isNaN(value2)) {
+            return;
         } else if (!isNaN(value2)) {
             log.textContent = value2 + value1;
             value2 = Number(log.textContent);
@@ -184,7 +194,7 @@
             display.appendChild(operator);
             value2 = Number(log.textContent);
         } else if (!isNaN(value1) && !isNaN(value2)) {
-            log.textContent = value1 + value2;
+            log.textContent = value2 + value1;
             display.textContent = ""
             display.appendChild(operator);
             value1 = undefined;
@@ -296,21 +306,32 @@
             log.textContent = value2 * value1;
             value1 = 0;
             updateDisplay();
+            logExpander();
+        } else if (string === "/0") {
+            alert("This will result in infinity. I have reset your display. You're welcome.")
+            value1 = 0;
+            updateDisplay();
+            logExpander();
+            return;
         } else if (string.startsWith("/")) {
             log.textContent = value2 / value1;
             value1 = 0;
             updateDisplay();
+            logExpander();
         } else if (string.startsWith("+") || string.startsWith("-")){
             log.textContent = value2 + value1;
             value1 = 0;
             updateDisplay();
+            logExpander();
+        } else if (value1 !== undefined && value2 !== undefined) {
+            display.textContent = "0";
         } else if (typeof value1 !== undefined) {
             log.textContent = Number(value1);
-            value1 = 0;
             updateDisplay();
+            logExpander();
         } else {
             alert("Error 05 - Check result.")
-        }
+        };
     });
 
     dot.addEventListener("click", () => {
@@ -331,6 +352,7 @@
         let value = display.textContent;
         display.textContent = value.substr(0, value.length - 1);
         value1 = Number(display.textContent);
+        // updateDisplay();
         if (value1 === 0) {
             display.textContent = 0;
         }
